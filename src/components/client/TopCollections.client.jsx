@@ -3,7 +3,7 @@ import { Link } from "@shopify/hydrogen"
 const TopCollections = () => {
     return (
         <div className='flex bg-gray-200'>
-            <div className='flex h-[500px] lg:h-[500px] space-x-24 justify-center mx-auto overflow-hidden'>
+            <div className='flex lg:h-[500px] space-x-24 justify-center mx-auto overflow-hidden'>
                 <div className='w-1/3 my-auto space-y-3'>
                     <div className='flex space-x-4 font-bold lg:text-8xl text-4xl'>
                         <p>N</p>

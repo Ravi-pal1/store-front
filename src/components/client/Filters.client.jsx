@@ -19,6 +19,10 @@ export const filters = [
     id: 4,
     handle: '/products/filter/TITLE',
     title: 'Alphabetically (A-Z)'
+  }, {
+    id: 5,
+    handle: '/products',
+    title: 'Clear filters'
   }
 ]
 export default function Filter() {
@@ -29,7 +33,7 @@ export default function Filter() {
       <Listbox value={filters[0]}>
         <div className="relative mt-1">
           <Listbox.Button className="relative  cursor-default rounded-lg bg-gray-900 text-white py-2 pl-3 pr-10 shadow-md sm:text-sm">
-            <span className="block truncate">{filter?.title || "filters"}</span>
+            <span className="block truncate">{filter?.title || "Filters"}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             </span>
           </Listbox.Button>
@@ -44,7 +48,7 @@ export default function Filter() {
                 <Listbox.Option
                   key={filter.id}
                   className={({ active }) =>
-                    `relative cursor-default select-none px-4 py-2 ${
+                    `relative cursor-default select-none ${
                       active ? 'bg-violet-500 text-white' : 'text-gray-900'
                     }`
                   }
@@ -57,7 +61,7 @@ export default function Filter() {
                           selected ? 'font-medium' : 'font-normal'
                         }`}
                       >
-                      <Link to={filter.handle}>{filter.title}</Link>  
+                      <Link to={filter.handle} className = "block px-4 py-2">{filter.title}</Link>  
                       </span>
                     </>
                   )}

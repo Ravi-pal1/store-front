@@ -2,7 +2,7 @@ import { Link, Image, Money } from "@shopify/hydrogen";
 
 export default function ProductCard({ product }) {
   const { priceV2: price, compareAtPriceV2: compareAtPrice } =
-    product.variants?.nodes[0] || {};
+    product?.variants?.nodes[0] || {};
 
   const isDiscounted = compareAtPrice?.amount > price?.amount;
 
@@ -17,7 +17,7 @@ export default function ProductCard({ product }) {
           )}
           <Image
             className="aspect-[4/5]"
-            data={product?.variants?.nodes[0].image}
+            data={product?.featuredImage}
             alt="Alt Tag"
           />
         </div>

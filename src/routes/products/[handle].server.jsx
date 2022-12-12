@@ -10,6 +10,7 @@ import {
   
   import { Layout } from "../../components/server/Layout.server";
   import ProductDetails from "../../components/client/ProductDetails.client";
+import RecommendedProducts from "../../components/server/RecommendedProducts.server";
   
   export default function Product() {
     const { handle } = useRouteParams();  
@@ -35,6 +36,7 @@ import {
           <Seo type="product" data={product} />
         </Suspense>
         <ProductDetails product={product} />
+        <RecommendedProducts id = {product?.id}/>
       </Layout>
     );
   }
@@ -123,4 +125,3 @@ const PRODUCT_QUERY = gql`
     }
   }
 `;
-  

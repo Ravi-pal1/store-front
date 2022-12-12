@@ -81,15 +81,15 @@ const QUERY = gql`
           title
           publishedAt
           handle
+          featuredImage {
+            id
+            url
+            width
+            height
+          }
           variants(first: 1) {
             nodes {
               id
-              image {
-                url
-                altText
-                width
-                height
-              }
               priceV2 {
                 amount
                 currencyCode

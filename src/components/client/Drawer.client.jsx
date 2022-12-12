@@ -1,12 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-/**
- * A Drawer component that opens on user click.
- * @param open - Boolean state. If `true`, then the drawer opens.
- * @param onClose - Function should set the open state.
- * @param children - React children node.
- */
 function Drawer({ open, onClose, children }) {
   return (
     <Transition appear show={open} as={Fragment}>

@@ -36,6 +36,7 @@ export default function Header({ shop }) {
             <IconBag />
             <CartBadge/>
           </button>
+          <Link to="/account">profile</Link>
         </div>
       </header>
     </>

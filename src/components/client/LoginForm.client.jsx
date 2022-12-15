@@ -1,27 +1,28 @@
 import { useNavigate } from '@shopify/hydrogen/client';
 import { useRef, useState } from 'react';
 import formValidate from '../../utils/formValidate';
+
 export async function callLoginApi({email, password}) {
-    try {
-      const res = await fetch(`/account/login`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({email, password}),
-      });
-      if (res.ok) {
-        return {isLogin: true}
-      } else {
-        return res.json();
-      }
-    } catch (error) {
-      return {
-        error: error.toString(),
-      };
+  try {
+    const res = await fetch(`/account/login`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password}),
+    });
+    if (res.ok) {
+      return {isLogin: true}
+    } else {
+      return res.json();
     }
+  } catch (error) {
+    return {
+      error: error.toString(),
+    };
   }
+}
   
   
 const LoginForm = () => {
@@ -84,7 +85,7 @@ const LoginForm = () => {
                               className="relative block w-full appearance-none rounded border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" 
                               placeholder="Password" 
                               onChange={(e)=> formData.current.password = e.target.value}
-                              // required 
+                              required 
                             />
                             <span className='text-red-500'>
                               {formError?.password}

@@ -26,7 +26,7 @@ const AdressDetails = ({ address }) => {
       {
         (address)
           &&
-        <div className="px-4 py-2 justify-between flex rounded lg:w-1/4 w-3/4 bg-white shadow">
+        <div className="px-4 py-2 justify-between flex rounded lg:w-1/4 w-full bg-white shadow">
           <div>
             <p>
               {address?.firstName} {address?.lastName}

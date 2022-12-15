@@ -24,7 +24,7 @@ import {
           aria-labelledby="cart-contents"
           className="px-4 pb-4 overflow-auto transition md:px-12"
         >
-          <ul className="grid gap-6 md:gap-10 overflow-y-scroll">
+          <ul className="grid gap-6 md:gap-10">
             {lines.map((line) => {
               return (
                 <CartLineProvider key={line.id} line={line}>
@@ -116,6 +116,7 @@ export function CartLineItem() {
         <div className="flex-shrink-0">
           <Image
             data={merchandise.image}
+            alt = {merchandise.title}
             className="object-cover object-center w-24 h-24 border rounded md:w-28 md:h-28"
           />
         </div>
@@ -175,10 +176,7 @@ export function CartLineItem() {
 function CartLineQuantityAdjust({ lineId, quantity }) {
     return (
       <>
-        <label htmlFor={`quantity-${lineId}`} className="sr-only">
-          Quantity, {quantity}
-        </label>
-        <div className="flex items-center overflow-auto border rounded">
+        <div className="flex items-center overflow-hidden rounded">
           <CartLineQuantityAdjustButton
             adjust="decrease"
             aria-label="Decrease quantity"

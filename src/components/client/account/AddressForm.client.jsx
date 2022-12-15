@@ -1,29 +1,4 @@
-import { useState } from "react";
-
-const EditAdressForm = ({ setIsOpen }) => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    address1: '',
-    address2: '',
-    city: '',
-    province: '',
-    zip: '',
-    country: '',
-    phone: ''
-  });
-  const handleChange = (e) => {
-    setFormData({...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const handleSubmit = (e)=> {
-    e.preventDefault()
-    callAdressCreateApi(formData)
-    .then((res)=>{
-      console.log(res);
-    })
-  }
+const AddressForm = ({formData, handleChange, handleSubmit, setIsOpen}) => {
   return (
     <section className="bg-black/25 fixed h-screen z-50 lg:top-24 left-0 right-0 bottom-0">
       <div
@@ -134,30 +109,7 @@ const EditAdressForm = ({ setIsOpen }) => {
         </form>
       </div>
     </section>
-  );
-};
-
-export default EditAdressForm;
-
-export async function callAdressCreateApi(formData) {
-  try {
-    const res = await fetch(`/account/`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    if (res.ok) {
-      console.log(res);
-      return {}
-    } else {
-      return res.json();
-    }
-  } catch (error) {
-    return {
-      error: error.toString(),
-    };
-  }
+  )
 }
+
+export default AddressForm

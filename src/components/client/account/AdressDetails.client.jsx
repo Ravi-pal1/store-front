@@ -1,55 +1,70 @@
 import { useEffect, useState } from "react"
-import EditAdressForm from "./EditAdressForm.client"
+import EditAddressForm from "./EditAddressForm.client"
 
-const AdressDetails = ({ defaultAddress }) => {
+const AdressDetails = ({ address }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const openModel = (e) => {
-    setIsOpen(true)
-    e.stopPropagation()
-  }
-  useEffect(()=>{
-    window.addEventListener('click', ()=>{
-      setIsOpen(false)
-    })
-    return ()=> {
-      removeEventListener('click',window)
+    const openModel = (e) => {
+      setIsOpen(true)
+      handleEditClick()
+      e.stopPropagation()
     }
-  },[])
+    useEffect(()=>{
+      window.addEventListener('click', ()=>{
+        setIsOpen(false)
+      })
+      return ()=> {
+        removeEventListener('click',window)
+      }
+    },[])
+
+  const handleEditClick = () => {
+    callEditAddressApi(address)
+  }
   return (
     <>
+      {isOpen && <EditAddressForm setIsOpen = {setIsOpen} initialAddress = {address}/>}
       {
-        (defaultAddress)
-        ? <section className="border border-red-600">
-            <h2 className='text-xl font-bold mb-2'>Adress Book</h2>
-            <div className="px-4 py-2 rounded w-1/4 flex justify-between bg-white shadow">
-              <address>
-                {`${defaultAddress.firstName} ${defaultAddress.lastName}`} <br/>
-                {defaultAddress?.address1} <br/>
-                {defaultAddress?.address2 &&  <br/>}
-                {defaultAddress?.city + ' '}
-                {defaultAddress?.province} <br/>
-                {defaultAddress?.country + ' '}
-                {defaultAddress?.zip} <br/>
-                {defaultAddress?.phone} <br/>
-              </address>
-              <div className="text-gray-600">
-                Default 
-              </div>
-            </div>
-          </section>
-        :<section>
-          <div className='space-y-3 bg-white shadow rounded p-6'>
-            <p className='text-sm'>You havn't saved any adresses yet.</p> 
+        (address)
+          &&
+        <div className="px-4 py-2 justify-between flex rounded lg:w-1/4 w-3/4 bg-white shadow">
+          <div>
+            <p>
+              {address?.firstName} {address?.lastName}
+            </p>
+            <p>{address?.address1}</p> 
+            <p>{address?.address2}</p> 
+            <p>{address?.city} {address?.province}</p> 
+            <p>{address?.country}</p> 
+            <p>{address?.zip}</p> 
+            <p>{address?.phone}</p> 
           </div>
-        </section>
+          <button className="h-fit underline" onClick={openModel}>Edit</button>
+        </div>
       }
-      <button className='block border w-fit px-3 py-2 text-white rounded bg-yellow-800' onClick={openModel}>Add an Address</button>
-      {
-        isOpen && <EditAdressForm setIsOpen = {setIsOpen}/>
-      }
-    </>
-                
+    </>         
   )
 }
 
 export default AdressDetails
+
+export async function callEditAddressApi(address) {
+  try {
+    const res = await fetch(`/account/editAddress`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(address),
+    });
+    if (res.ok) {
+      return {}
+    } else {
+      return res.json();
+    }
+  } catch (error) {
+    return {
+      error: error.toString(),
+    };
+  }
+}

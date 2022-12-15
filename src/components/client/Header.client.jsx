@@ -8,9 +8,6 @@ export default function Header({ shop }) {
     <>
       <Drawer open={isOpen} onClose={closeDrawer}>
         <div className="grid">
-          <Drawer.Title>
-            <h2 className="sr-only">Cart Drawer</h2>
-          </Drawer.Title>
           <CartDetails onClose={closeDrawer} />
         </div>
       </Drawer>
@@ -19,14 +16,27 @@ export default function Header({ shop }) {
         className={`flex items-center h-16 p-6 md:p-8 lg:p-12 sticky backdrop-blur-lg z-50 top-0 justify-between w-full leading-none gap-4 antialiased transition shadow-sm bg-black/80 text-white`}
       >
         <div className="flex gap-12">
-          <Link className="font-bold" to="/">
+          <Link className="font-bold text-2xl" to="/">
             {shop.name}
           </Link>
         </div>
-        <div className="flex items-center space-x-4">
-          <div>
-            <Link className="font-bold" to="/products">
-              All Products
+        <div className="flex items-center space-x-4 gap-4">
+          <div className="flex items-center space-x-5">
+            <div className="hover:text-gray-200" >
+              <Link className="font-bold" to="/products">
+                All Products
+              </Link>
+            </div>
+            <Link to="/account">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                strokeWidth="1.5" 
+                stroke="currentColor" 
+                className="w-6 h-6 hover:text-gray-200">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
             </Link>
           </div>
           <button
@@ -36,7 +46,6 @@ export default function Header({ shop }) {
             <IconBag />
             <CartBadge/>
           </button>
-          <Link to="/account">profile</Link>
         </div>
       </header>
     </>
@@ -49,7 +58,7 @@ function IconBag() {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"
-      className="w-5 h-5"
+      className="w-6 h-6 hover:text-gray-200"
     >
       <title>Bag</title>
       <path

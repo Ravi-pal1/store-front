@@ -2,11 +2,14 @@ import { gql, useShopQuery } from "@shopify/hydrogen"
 import { Layout } from "../../components/server/Layout.server";
 import ProductCard from "../../components/client/ProductCard.client";
 import Filters from "../../components/client/Filters.client";
-const Index = () => {
+const Index = ({ filter }) => {
     const {
-        data: { products },
+        data: { products }, 
     } = useShopQuery({
-        query: QUERY
+        query: QUERY,
+        variables: {
+          key: filter || "BEST_SELLING"
+        }
     }); 
   return (
     <Layout>
@@ -26,33 +29,32 @@ const Index = () => {
 
 export default Index
 const QUERY = gql`
-query Products {
-    products(first: 12) {
-      nodes {
-        id
-        title
-        publishedAt
-        handle
-        featuredImage{
-          url
-          altText
-          width
-          height
-        }
-        variants(first: 1) {
-          nodes {
-            id
-            priceV2 {
-              amount
-              currencyCode
-            }
-            compareAtPriceV2 {
-              amount
-              currencyCode
-            }
+query Products($key: ProductSortKeys!) {
+  products(first: 20, query: "collection_type:smart", sortKey: $key)  {
+    nodes {
+      id
+      title
+      publishedAt
+      handle
+      featuredImage{
+        url
+        altText
+        width
+        height
+      }
+      variants(first: 1) {
+        nodes {
+          id
+          priceV2 {
+            amount
+            currencyCode
+          }
+          compareAtPriceV2 {
+            amount
+            currencyCode
           }
         }
       }
     }
   }
-`;
+}`

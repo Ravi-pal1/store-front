@@ -1,76 +1,38 @@
-import { Fragment, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { Link, useRouteParams } from '@shopify/hydrogen'
-
+import {useServerProps} from '@shopify/hydrogen'
 export const filters = [
   {
     id: 1,
-    handle: '/products/filter/BEST_SELLING',
+    handle: 'BEST_SELLING',
     title: 'Best Selling'
   }, {
     id: 2,
-    handle: '/products/filter/PRICE',
+    handle: 'PRICE',
     title: 'Price (Low to High)'
   }, {
     id: 3,
-    handle: '/products/filter/CREATED_AT',
+    handle: 'CREATED_AT',
     title: 'Latest'
   }, {
     id: 4,
-    handle: '/products/filter/TITLE',
+    handle: 'TITLE',
     title: 'Alphabetically (A-Z)'
-  }, {
-    id: 5,
-    handle: '/products',
-    title: 'Clear filters'
   }
 ]
 export default function Filter() {
-  const {handle} = useRouteParams()
-  const filter = filters.find(item => item.handle.includes(handle))
+  const {setServerProps} = useServerProps()
   return(
-  <div>
-      <Listbox value={filters[0]}>
-        <div className="relative mt-1">
-          <Listbox.Button className="relative  cursor-default rounded-lg bg-gray-900 text-white py-2 pl-3 pr-10 shadow-md sm:text-sm">
-            <span className="block truncate">{filter?.title || "Filters"}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            </span>
-          </Listbox.Button>
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Listbox.Options className="absolute z-40 mt-1 min-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg">
-              {filters.map(filter => (
-                <Listbox.Option
-                  key={filter.id}
-                  className={({ active }) =>
-                    `relative cursor-default select-none ${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                    }`
-                  }
-                  value={filter.title}
-                >
-                  {({ selected }) => (
-                    <>
-                      <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
-                      >
-                      <Link to={filter.handle} className = "block px-4 py-2">{filter.title}</Link>  
-                      </span>
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
-        </div>
-      </Listbox>
+    <div>
+      <select 
+        onChange={(e)=>setServerProps("filter", e.target.value)}
+        className = "border rounded py-1"
+      >
+        <option value="">Default</option>
+        {
+          filters.map(filter=> 
+            <option value={filter.handle} key={filter}>{filter.title}</option>
+          )
+        }
+      </select>
     </div>
   )
 }

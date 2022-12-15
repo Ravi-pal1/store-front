@@ -2,7 +2,7 @@ import { useSession } from "@shopify/hydrogen/foundation/useSession/useSession";
 import { gql, useShopQuery } from "@shopify/hydrogen";
 import { Layout } from "../../components/server/Layout.server";
 import UserDetails from "../../components/client/account/UserDetails.client";
-import AdressDetails from "../../components/client/account/AdressDetails.client";
+import AddressDetails from "../../components/client/account/AddressDetails.client";
 import OrderDetails from "../../components/client/account/OrderDetails.client";
 import { LogoutButton } from "../../components/client/account/LogOutButton.client";
 import AddAddressButton from "../../components/client/account/AddAddressButton.client";
@@ -25,23 +25,25 @@ const index = ({ response, isUpdated }) => {
           Welcome back, {customer.firstName}
         </h2>
         <OrderDetails customer={customer} />
-        {
-          (customer || isUpdated ) && <UserDetails customer={customer}/>
-        }
+        {(customer || isUpdated) && <UserDetails customer={customer} />}
         <div>
-          <h2 className='text-xl font-bold  mb-2'>Adress Book</h2>
-          {
-            (customer?.defaultAddress || isUpdated) 
-            ? <AdressDetails address = {customer?.defaultAddress}/>
-            : <section>
-                <div className='space-y-3 bg-white shadow rounded p-6'>
-                  <p className='text-sm'>You havn't saved any adresses yet.</p> 
-                  <AddAddressButton/>
-                </div>
-              </section>
-          }
+          <h2 className="text-xl font-bold  mb-2">Address Book</h2>
+          {customer?.defaultAddress ? (
+            customer.defaultAddress || isUpdated ? (
+              <AddressDetails address={customer?.defaultAddress} />
+            ) : (
+              ""
+            )
+          ) : (
+            <section>
+              <div className="space-y-3 bg-white shadow rounded p-6">
+                <p className="text-sm">You havn't saved any adresses yet.</p>
+                <AddAddressButton />
+              </div>
+            </section>
+          )}
         </div>
-        <LogoutButton/> 
+        <LogoutButton />
       </section>
     </Layout>
   );
@@ -50,20 +52,19 @@ export default index;
 
 export async function api(request, { session, queryShop }) {
   const jsonBody = await request.json();
-  const {customerAccessToken} = await session.get()
+  const { customerAccessToken } = await session.get();
   const { data } = await queryShop({
     query: addressQuery,
     variables: {
       customerAccessToken: customerAccessToken,
       address: {
-        ...jsonBody
-      }
-    }
+        ...jsonBody,
+      },
+    },
   });
-  return new Response(data,{
-      status: 200
-    }
-  )
+  return new Response(data, {
+    status: 200,
+  });
 }
 
 const addressQuery = gql`
@@ -84,7 +85,8 @@ const addressQuery = gql`
         id
       }
     }
-  }`;
+  }
+`;
 
 const QUERY = gql`
   query customerAccess($customerAccessToken: String!) {

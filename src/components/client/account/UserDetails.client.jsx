@@ -1,31 +1,37 @@
 import { useState } from "react";
 import UserDetailsForm from "./UserDetailsForm.client";
-import {useServerProps} from '@shopify/hydrogen'
+import { useServerProps } from "@shopify/hydrogen";
 
 const UserDetails = ({ customer }) => {
-  const {firstName, lastName, email, phone} = customer
-  const { setServerProps } = useServerProps()
-  const [ formData, setFormData ] = useState({
+  const { firstName, lastName, email, phone } = customer;
+  const { setServerProps } = useServerProps();
+  const [formData, setFormData] = useState({
     firstName,
     lastName,
     email,
-    phone
-  }) 
-  const [ isOpen, setIsOpen] = useState(false)
+    phone,
+  });
+  const [isOpen, setIsOpen] = useState(false);
   const handleEditUserDetails = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
   const handleSubmit = (e) => {
-    e.preventDefault()
-    callEditUserDetailsApi(formData)
-    .then(()=>{
-      setServerProps('isUpdated', true)
-      setIsOpen(false)
-    })
-  }
+    e.preventDefault();
+    callEditUserDetailsApi(formData).then(() => {
+      setServerProps("isUpdated", Date.now());
+      setIsOpen(false);
+    });
+  };
   return (
     <section>
-      {isOpen && <UserDetailsForm setFormData = {setFormData} formData = {formData} setIsOpen = {setIsOpen} handleSubmit = {handleSubmit}/>}
+      {isOpen && (
+        <UserDetailsForm
+          setFormData={setFormData}
+          formData={formData}
+          setIsOpen={setIsOpen}
+          handleSubmit={handleSubmit}
+        />
+      )}
       <h2 className="text-xl font-bold mb-2">Account Details</h2>
       <div className="flex rounded shadow bg-white">
         <div className="w-full gap-2 md:gap-4 grid p-6 md:p-8 lg:p-6">
@@ -46,7 +52,9 @@ const UserDetails = ({ customer }) => {
               </svg>
               <p>Name</p>
             </div>
-            <p>{customer?.firstName} {customer?.lastName}</p>
+            <p>
+              {customer?.firstName} {customer?.lastName}
+            </p>
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -94,22 +102,21 @@ const UserDetails = ({ customer }) => {
 
 export default UserDetails;
 
-
 export async function callEditUserDetailsApi(formData) {
-  if(!formData) return
+  if (!formData) return;
   console.log(formData);
   try {
     const res = await fetch(`/account/editUserDetails`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     });
     if (res.ok) {
       console.log(res);
-      return {}
+      return {};
     } else {
       return res.json();
     }

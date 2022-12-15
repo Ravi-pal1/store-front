@@ -1,26 +1,27 @@
-import { gql } from '@shopify/hydrogen'
+import { gql } from "@shopify/hydrogen";
 
-export async function api(request, {session, queryShop}) {
+export async function api(request, { session, queryShop }) {
   const jsonBody = await request.json();
-  const {customerAccessToken} = await session.get()
+  const { customerAccessToken } = await session.get();
   const { data } = await queryShop({
     query: Query,
     variables: {
       customerAccessToken: customerAccessToken,
-      customer: jsonBody
-    }
+      customer: jsonBody,
+    },
   });
-  console.log(data);
-  return new Response(data,{
-      status: 200
-    }
-  )
+  return new Response(data, {
+    status: 200,
+  });
 }
-const Query = gql `
-  mutation customerUpdate($customer: CustomerUpdateInput!, $customerAccessToken: String!) {
+const Query = gql`
+  mutation customerUpdate(
+    $customer: CustomerUpdateInput!
+    $customerAccessToken: String!
+  ) {
     customerUpdate(
-        customer: $customer, 
-        customerAccessToken: $customerAccessToken
+      customer: $customer
+      customerAccessToken: $customerAccessToken
     ) {
       customer {
         firstName
@@ -33,4 +34,4 @@ const Query = gql `
       }
     }
   }
-` 
+`;

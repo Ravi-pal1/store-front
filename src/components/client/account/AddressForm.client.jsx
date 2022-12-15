@@ -1,6 +1,6 @@
-const AddressForm = ({formData, handleChange, handleSubmit, setIsOpen}) => {
+const AddressForm = ({ formData, handleChange, handleSubmit, setIsOpen }) => {
   return (
-    <section className="bg-black/25 fixed h-screen z-50 lg:top-24 left-0 right-0 bottom-0">
+    <section className="bg-black/25 fixed h-screen z-50 lg:top-20 left-0 right-0 bottom-0">
       <div
         className="flex flex-col bg-white rounded w-11/12 lg:w-2/6 m-auto shadow p-4 mt-8"
         onClick={(e) => e.stopPropagation()}
@@ -109,7 +109,7 @@ const AddressForm = ({formData, handleChange, handleSubmit, setIsOpen}) => {
         </form>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default AddressForm
+export default AddressForm;

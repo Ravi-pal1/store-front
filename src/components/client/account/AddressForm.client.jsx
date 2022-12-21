@@ -1,4 +1,4 @@
-const AddressForm = ({ formData, handleChange, handleSubmit, setIsOpen }) => {
+const AddressForm = ({ formData, handleChange, handleSubmit, setIsOpen, formError }) => {
   return (
     <section className="bg-black/25 fixed h-screen z-50 lg:top-20 left-0 right-0 bottom-0">
       <div
@@ -106,6 +106,7 @@ const AddressForm = ({ formData, handleChange, handleSubmit, setIsOpen }) => {
             value="Save"
             className="border py-2 rounded bg-gray-900 text-white"
           />
+          <span className="text-red-500">{formError}</span>
         </form>
       </div>
     </section>

@@ -9,8 +9,33 @@ import {
 import { Layout } from "../../components/server/Layout.server";
 import ProductCard from "../../components/client/ProductCard.client";
 import { Suspense } from "react";
+import Filter from "../../components/client/Filters.client";
 
-export default function Collection() {
+export const filters = [
+  {
+    id: 1,
+    handle: 'COLLECTION_DEFAULT',
+    title: 'Default'    
+  }, {
+    id: 2,
+    handle: 'BEST_SELLING',
+    title: 'Best Selling'
+  }, {
+    id: 3,
+    handle: 'PRICE',
+    title: 'Price (Low to High)'
+  }, {
+    id: 4,
+    handle: 'CREATED',
+    title: 'Latest'
+  }, {
+    id: 5,
+    handle: 'TITLE',
+    title: 'Alphabetically (A-Z)'
+  }
+]
+
+export default function Collection({ filter }) {
   const {handle} = useRouteParams()
   const {
     data: { collection },
@@ -18,6 +43,7 @@ export default function Collection() {
     query: QUERY,
     variables: {
       handle,
+      key: filter || "COLLECTION_DEFAULT"
     },
   }); 
 
@@ -48,6 +74,7 @@ export default function Collection() {
         )}
       </header>
       <section className="w-full gap-4 md:gap-8 grid p-6 md:p-8 lg:p-12">
+      <Filter filters={filters}/>
         <div className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {collection?.products?.nodes?.map((product) => (
             <ProductCard key={product.id} product={product} />
@@ -59,7 +86,10 @@ export default function Collection() {
 }
 
 const QUERY = gql`
-  query CollectionDetails($handle: String!) {
+  query CollectionDetails(
+    $handle: String! 
+    $key:  ProductCollectionSortKeys!
+    ) {
     collection(handle: $handle) {
       id
       title
@@ -75,7 +105,7 @@ const QUERY = gql`
         height
         altText
       }
-      products(first: 12) {
+      products(first: 12 sortKey: $key) {
         nodes {
           id
           title

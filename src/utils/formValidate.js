@@ -8,13 +8,16 @@ export default function formValidate(formData) {
             formError.email = "Please enter a valid email !!"
         }
     }
-    if(formData.hasOwnProperty('name') && formData.name.trim() === '') {
-        formError.name = "Name is required !!"
+    if(formData?.name?.trim() === '') {
+        formError.name = "FirstName is required !!"
     }
-    if(formData.hasOwnProperty('password') && formData.password.trim() === '') {
+    if(formData?.password?.trim() === '') {
         formError.password = "password is required !!"
     }
-    if(Object.keys(formData).length === Object.keys(formError)?.length) {
+    if(formData?.phone?.trim() === '') {
+        formError.phone = "Phone No. is required !!"
+    }
+    if(Object.keys(formData)?.length === Object.keys(formError)?.length) {
         return {status: "Please enter input correctly"}
     }
     return formError

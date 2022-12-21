@@ -1,6 +1,7 @@
 import { Link, useCart } from "@shopify/hydrogen";
 import { Drawer, useDrawer } from "./Drawer.client";
 import { CartDetails } from "./CartDetails.client";
+import SearchBar from "./SearchBar.client";
 
 export default function Header({ shop }) {
   const { isOpen, openDrawer, closeDrawer } = useDrawer();
@@ -22,6 +23,7 @@ export default function Header({ shop }) {
         </div>
         <div className="flex items-center space-x-4 gap-4">
           <div className="flex items-center space-x-5">
+            <SearchBar/>
             <div className="hover:text-gray-200" >
               <Link className="font-bold" to="/products">
                 All Products

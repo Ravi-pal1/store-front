@@ -15,15 +15,25 @@ const initialAddress = {
 };
 const AddAdressForm = ({ setIsOpen }) => {
   const [formData, setFormData] = useState(initialAddress);
+  const [formError, setFormError] = useState("");
   const { setServerProps } = useServerProps();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    callAdressCreateApi(formData).then(() => {
-      setIsOpen(false);
-      setServerProps("isUpdated", Date.now());
+    callAdressCreateApi(formData).then((res) => {
+      if (res?.isUpdated) {
+        setIsOpen(false);
+        setServerProps("isUpdated", Date.now());
+        return
+      }
+      res.json().then(res=>{
+        setFormError(res?.message)
+      })
+    })
+    .catch(error => {
+      console.log(error)
     });
   };
   return (
@@ -32,6 +42,7 @@ const AddAdressForm = ({ setIsOpen }) => {
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       formData={formData}
+      formError={formError}
     />
   );
 };
@@ -49,9 +60,9 @@ export async function callAdressCreateApi(formData) {
       body: JSON.stringify(formData),
     });
     if (res.ok) {
-      return {};
+      return { isUpdated: true };
     } else {
-      return res.json();
+      return res;
     }
   } catch (error) {
     return {

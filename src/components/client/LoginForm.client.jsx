@@ -1,7 +1,7 @@
 import { useNavigate } from '@shopify/hydrogen/client';
 import { useRef, useState } from 'react';
 import formValidate from '../../utils/formValidate';
-
+import { Link } from '@shopify/hydrogen'
 export async function callLoginApi({email, password}) {
   try {
     const res = await fetch(`/account/login`, {
@@ -39,9 +39,9 @@ const LoginForm = () => {
     if(Object.keys(formValidatte).length !== 0) {
       return
     }
-    callLoginApi(formData.current).then((res) => {
+    callLoginApi(formData.current).then((res)   => {
       if(res?.isLogin) {
-        navigate('/')
+        navigate('/account')
       }
       else {
         setFormError(res?.error[0])
@@ -104,6 +104,9 @@ const LoginForm = () => {
                             </span>
                             Sign in
                         </button>
+                        <div className='text-center mt-4'>
+                          <Link to = '/account/signUp'>Didn't have an account? <span className='underline'>Sign Up</span></Link>
+                        </div>
                     </div>
                 </form>
             </div>

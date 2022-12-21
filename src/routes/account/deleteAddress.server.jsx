@@ -1,6 +1,14 @@
 import { gql } from '@shopify/hydrogen'
 
 export async function api(request, {session, queryShop}) {
+  if (request.method !== 'DELETE') {
+    return new Response('Delete required to delete address', {
+      status: 405,
+      headers: {
+        Allow: 'DELETE',
+      },
+    });
+  }
   const jsonBody = await request.json();
   const {customerAccessToken} = await session.get()
   const { data } = await queryShop({

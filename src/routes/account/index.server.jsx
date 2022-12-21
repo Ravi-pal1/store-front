@@ -7,7 +7,7 @@ import OrderDetails from "../../components/client/account/OrderDetails.client";
 import { LogoutButton } from "../../components/client/account/LogOutButton.client";
 import AddAddressButton from "../../components/client/account/AddAddressButton.client";
 
-const index = ({ response, isUpdated }) => {
+const index = ({ response }) => {
   const { customerAccessToken } = useSession();
   if (!customerAccessToken) return response.redirect("/account/login");
   const {
@@ -25,15 +25,11 @@ const index = ({ response, isUpdated }) => {
           Welcome back, {customer.firstName}
         </h2>
         <OrderDetails customer={customer} />
-        {(customer || isUpdated) && <UserDetails customer={customer} />}
+        {customer && <UserDetails customer={customer} />}
         <div>
           <h2 className="text-xl font-bold  mb-2">Address Book</h2>
-          {customer?.defaultAddress ? (
-            customer.defaultAddress || isUpdated ? (
-              <AddressDetails address={customer?.defaultAddress} />
-            ) : (
-              ""
-            )
+          {customer.defaultAddress ? (
+            <AddressDetails address={customer?.defaultAddress} />
           ) : (
             <section>
               <div className="space-y-3 bg-white shadow rounded p-6">
@@ -62,9 +58,19 @@ export async function api(request, { session, queryShop }) {
       },
     },
   });
-  return new Response(data, {
-    status: 200,
-  });
+  if (data?.customerAddressCreate?.customerAddress?.id) {
+    return new Response(data, {
+      status: 200,
+    });
+  }
+  return new Response(
+    JSON.stringify({
+      message: data?.customerAddressCreate?.customerUserErrors[0]?.message,
+    }),
+    {
+      status: 400,
+    }
+  );
 }
 
 const addressQuery = gql`

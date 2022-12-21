@@ -12,14 +12,21 @@ const UserDetails = ({ customer }) => {
     phone,
   });
   const [isOpen, setIsOpen] = useState(false);
+  const [formError, setFormError] = useState('')
   const handleEditUserDetails = () => {
     setIsOpen(true);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    callEditUserDetailsApi(formData).then(() => {
-      setServerProps("isUpdated", Date.now());
-      setIsOpen(false);
+    callEditUserDetailsApi(formData).then((res) => {
+      if(res.isUpdated){
+        setServerProps("isUpdated", Date.now());
+        setIsOpen(false);
+        return
+      }
+      res.json().then(error=>{
+        setFormError(error?.message)
+      })
     });
   };
   return (
@@ -30,6 +37,7 @@ const UserDetails = ({ customer }) => {
           formData={formData}
           setIsOpen={setIsOpen}
           handleSubmit={handleSubmit}
+          formError = {formError}
         />
       )}
       <h2 className="text-xl font-bold mb-2">Account Details</h2>
@@ -104,7 +112,6 @@ export default UserDetails;
 
 export async function callEditUserDetailsApi(formData) {
   if (!formData) return;
-  console.log(formData);
   try {
     const res = await fetch(`/account/editUserDetails`, {
       method: "POST",
@@ -115,10 +122,9 @@ export async function callEditUserDetailsApi(formData) {
       body: JSON.stringify(formData),
     });
     if (res.ok) {
-      console.log(res);
-      return {};
+      return {isUpdated: true};
     } else {
-      return res.json();
+      return res;
     }
   } catch (error) {
     return {

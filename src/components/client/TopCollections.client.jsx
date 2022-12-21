@@ -21,7 +21,7 @@ const TopCollections = () => {
                         <p>S</p>
                     </div>
                     <div className='lg:pt-12 pt-8'>
-                        <Link to='/collections' className='px-4 py-2 bg-red-400 text-white rounded-lg'>
+                        <Link to='/collections' className='px-4 py-2 bg-gray-900 text-white rounded-lg'>
                             Explore
                         </Link>
                     </div>

@@ -56,25 +56,3 @@ const AddressOptionModel = ({ handleEditButton, handleDeleteButton }) => {
 export default AddressOptionModel;
 
 
-export async function callAdressDeleteApi(address) {
-    if(!address) return
-    try {
-      const res = await fetch(`/account/deleteAddress`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(address),
-      });
-      if (res.ok) {
-        return {}
-      } else {
-        return res.json();
-      }
-    } catch (error) {
-      return {
-        error: error.toString(),
-      };
-    }
-}

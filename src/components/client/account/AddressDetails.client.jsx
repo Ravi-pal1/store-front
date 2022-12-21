@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AddressOptionModel, { callAdressDeleteApi } from "./AddressOptionModel.client";
+import AddressOptionModel from "./AddressOptionModel.client";
 import EditAddressForm from "./EditAddressForm.client";
 import {useServerProps} from '@shopify/hydrogen'
 
@@ -20,10 +20,6 @@ const AddressDetails = ({ address }) => {
 
   const handleEditButton = () => {
     openModel()
-    callEditAddressApi(address)
-    .then(()=>{
-      setServerProps("isUpdated", Date.now())
-    })
   };
   
   const handleDeleteButton = () =>{
@@ -73,7 +69,30 @@ export async function callEditAddressApi(address) {
       body: JSON.stringify(address),
     });
     if (res.ok) {
-      return {};
+      return {isUpdated: true};
+    } else {
+      return res
+    }
+  } catch (error) {
+    return {
+      error: error.toString(),
+    };
+  }
+}
+
+export async function callAdressDeleteApi(address) {
+  if(!address) return
+  try {
+    const res = await fetch(`/account/deleteAddress`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(address),
+    });
+    if (res.ok) {
+      return {}
     } else {
       return res.json();
     }

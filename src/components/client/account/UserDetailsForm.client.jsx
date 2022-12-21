@@ -1,4 +1,4 @@
-const UserDetailsForm = ({formData, setFormData, handleSubmit, setIsOpen}) => {
+const UserDetailsForm = ({formData, setFormData, handleSubmit, setIsOpen, formError}) => {
     const handleChange = (e) => {
         setFormData({...formData,
             [e.target.name]: e.target.value,
@@ -69,6 +69,7 @@ const UserDetailsForm = ({formData, setFormData, handleSubmit, setIsOpen}) => {
               value="Save"
               className="border py-2 rounded bg-gray-900 text-white"
             />
+            <span className="text-red-500">{formError}</span>
           </form>
         </div>
       </section>

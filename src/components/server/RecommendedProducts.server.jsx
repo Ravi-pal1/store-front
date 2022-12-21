@@ -29,6 +29,7 @@ const RecommendedProducts = ({id}) => {
       }
     }`
   }
+  if(id) return
     const query = getQuery(id)
     const {
         data: { products },

@@ -23,30 +23,35 @@ export default function Header({ shop }) {
         </div>
         <div className="flex items-center space-x-4 gap-4">
           <div className="flex items-center space-x-5">
-            <SearchBar/>
-            <div className="hover:text-gray-200" >
+            <SearchBar />
+            <div className="hover:text-gray-200">
               <Link className="font-bold" to="/products">
                 All Products
               </Link>
             </div>
             <Link to="/account">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                strokeWidth="1.5" 
-                stroke="currentColor" 
-                className="w-6 h-6 hover:text-gray-200">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 hover:text-gray-200"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                />
               </svg>
             </Link>
           </div>
           <button
             onClick={openDrawer}
             className="relative flex items-center justify-center w-8 h-8"
-            >
+          >
             <IconBag />
-            <CartBadge/>
+            <CartBadge />
           </button>
         </div>
       </header>

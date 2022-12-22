@@ -1,5 +1,5 @@
-export default function Filter({ filters, setFilter }) {
-  return (
+export default function Filter({filters, setFilter}) {
+  return(
     <div>
       <select
         onChange={(e) => setFilter(e.target.value)}
@@ -12,5 +12,5 @@ export default function Filter({ filters, setFilter }) {
         ))}
       </select>
     </div>
-  );
+  )
 }

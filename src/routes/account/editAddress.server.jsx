@@ -1,11 +1,11 @@
 import { gql } from "@shopify/hydrogen";
 
 export async function api(request, { session, queryShop }) {
-  if (request.method !== 'POST') {
+  if (request.method !== "POST") {
     return new Response(null, {
       status: 405,
       headers: {
-        Allow: 'POST',
+        Allow: "POST",
       },
     });
   }
@@ -19,15 +19,19 @@ export async function api(request, { session, queryShop }) {
       id: jsonBody.id,
     },
   });
-  if(data?.customerAddressUpdate?.customerAddress){
+  if (data?.customerAddressUpdate?.customerAddress) {
     return new Response(data, {
       status: 200,
     });
   }
   return new Response(
-    JSON.stringify({message:data?.customerAddressUpdate?.customerUserErrors[0]?.message}), {
-    status: 400,
-  })
+    JSON.stringify({
+      message: data?.customerAddressUpdate?.customerUserErrors[0]?.message,
+    }),
+    {
+      status: 400,
+    }
+  );
 }
 
 const addressQuery = gql`

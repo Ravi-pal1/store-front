@@ -10,15 +10,19 @@ export async function api(request, { session, queryShop }) {
       customer: jsonBody,
     },
   });
-  if(data?.customerUpdate?.customer) {
+  if (data?.customerUpdate?.customer) {
     return new Response(data, {
       status: 200,
     });
   }
   return new Response(
-    JSON.stringify({message:data?.customerUpdate?.customerUserErrors[0]?.message}), {
-    status: 400,
-  })
+    JSON.stringify({
+      message: data?.customerUpdate?.customerUserErrors[0]?.message,
+    }),
+    {
+      status: 400,
+    }
+  );
 }
 const Query = gql`
   mutation customerUpdate(

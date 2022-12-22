@@ -89,7 +89,7 @@ function ProductForm({ product }) {
 
 function PurchaseMarkup() {
   const { selectedVariant } = useProductOptions();
-  const isOutOfStock = !selectedVariant?.availableForSale || false; 
+  const isOutOfStock = !selectedVariant?.availableForSale || false;
   return (
     <>
       <AddToCartButton
@@ -161,13 +161,15 @@ function ProductGallery({ media }) {
     slidesToScroll: 1,
     lazyLoad: true,
     autoplay: false,
-    arrows: false
+    arrows: false,
   };
-  return(
+  return (
     <div>
-    <Slider {...settings} className = "lg:w-full  mx-auto lg:h-full h-[500px] w-[400px]">
-      {
-        media.map((med, i) => {
+      <Slider
+        {...settings}
+        className="lg:w-full  mx-auto lg:h-full h-[500px] w-[400px]"
+      >
+        {media.map((med, i) => {
           let extraProps = {};
           if (med.mediaContentType === "MODEL_3D") {
             extraProps = {
@@ -183,20 +185,18 @@ function ProductGallery({ media }) {
               ...med.image,
               altText: med.alt || "Product image",
             },
-          };  
+          };
           return (
-            <div key={i} className = "lg:w-[400px] lg:h-[550px]">
+            <div key={i} className="lg:w-[400px] lg:h-[550px]">
               <MediaFile
                 data={data}
-                className = "w-full h-full object-contain"
+                className="w-full h-full object-contain"
                 {...extraProps}
               />
             </div>
-          )
-        }
-      )
-      }
+          );
+        })}
       </Slider>
     </div>
-  )
+  );
 }

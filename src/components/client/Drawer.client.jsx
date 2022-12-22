@@ -56,7 +56,6 @@ function Drawer({ open, onClose, children }) {
   );
 }
 
-/* Use for associating arialabelledby with the title*/
 Drawer.Title = Dialog.Title;
 
 export { Drawer };

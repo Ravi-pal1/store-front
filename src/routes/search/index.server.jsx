@@ -1,6 +1,6 @@
 import { useUrl, gql, useShopQuery } from "@shopify/hydrogen";
-import ProductGrid from "../../components/client/ProductGrid.client";
 import BestSelling from "../../components/server/BestSelling.server";
+import CollectionGrid from "../../components/client/CollectionGrid.client";
 import { Layout } from "../../components/server/Layout.server";
 
 const PAGINATION_SIZE = 4;
@@ -8,7 +8,6 @@ const PAGINATION_SIZE = 4;
 const index = ({ filter, cursor }) => {
   if (filter) {
     filter = JSON.parse(filter);
-    console.log(filter);
   }
 
   const { searchParams } = useUrl();
@@ -28,8 +27,11 @@ const index = ({ filter, cursor }) => {
   return (
     <Layout>
       <section className="w-full gap-4 md:gap-8 grid p-6 md:p-8 lg:p-12">
+        <p>
+          Search results: <span className="bg-yellow-200 px-1">{q}</span>
+        </p>
         {products?.nodes?.length ? (
-          <ProductGrid collection={products} url={url} />
+          <CollectionGrid collection={products} url={url} />
         ) : (
           <>
             <h3>No results, try something else.</h3>
@@ -48,7 +50,7 @@ export async function api(request, { queryShop }) {
   const cursor = url.searchParams.get("cursor");
   const q = url.searchParams.get("q");
   const filter = url.searchParams.get("filter");
-  return queryShop({
+  const { data } = await queryShop({
     query: QUERY,
     variables: {
       query: q,
@@ -57,6 +59,7 @@ export async function api(request, { queryShop }) {
       cursor,
     },
   });
+  return data?.products;
 }
 
 const QUERY = gql`

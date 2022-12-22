@@ -1,45 +1,26 @@
-import {
-    gql,
-    useShopQuery,
-    useServerAnalytics,
-    useRouteParams,
-    ShopifyAnalyticsConstants,
-    Seo,
-  } from "@shopify/hydrogen";
-  import { Suspense } from "react";
-  
-  import { Layout } from "../../components/server/Layout.server";
-  import ProductDetails from "../../components/client/ProductDetails.client";
+import { gql, useShopQuery, useRouteParams } from "@shopify/hydrogen";
+
+import { Layout } from "../../components/server/Layout.server";
+import ProductDetails from "../../components/client/ProductDetails.client";
 import RecommendedProducts from "../../components/server/RecommendedProducts.server";
-  
-  export default function Product() {
-    const { handle } = useRouteParams();  
-    const {
-      data: { product },
-    } = useShopQuery({
-      query: PRODUCT_QUERY,
-      variables: {
-        handle,
-      },
-    });
-  
-    useServerAnalytics({
-      shopify: {
-        pageType: ShopifyAnalyticsConstants.pageType.product,
-        resourceId: product.id,
-      },
-    });
-  
-    return (
-      <Layout>
-        <Suspense>
-          <Seo type="product" data={product} />
-        </Suspense>
-        <ProductDetails product={product} />
-        <RecommendedProducts id = {product?.id}/>
-      </Layout>
-    );
-  }
+
+export default function Product() {
+  const { handle } = useRouteParams();
+  const {
+    data: { product },
+  } = useShopQuery({
+    query: PRODUCT_QUERY,
+    variables: {
+      handle,
+    },
+  });
+  return (
+    <Layout>
+      <ProductDetails product={product} />
+      <RecommendedProducts id={product?.id} />
+    </Layout>
+  );
+}
 
 const PRODUCT_QUERY = gql`
   fragment MediaFields on Media {
@@ -117,10 +98,6 @@ const PRODUCT_QUERY = gql`
             currencyCode
           }
         }
-      }
-      seo {
-        description
-        title
       }
     }
   }

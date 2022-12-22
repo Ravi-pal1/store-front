@@ -20,15 +20,18 @@ export async function api(request, { queryShop }) {
       },
     },
   });
-  console.log(data);
   if (data?.customer?.id) {
     return new Response(null, {
       status: 200,
     });
   }
-  return new Response(null, {
-    status: 500,
-  });
+  console.log(data);
+  return new Response(
+    JSON.stringify({
+      error: data?.customerCreate?.customerUserErrors,
+    }),
+    { status: 500 }
+  );
 }
 const SIGNUP_MUTATION = gql`
   mutation customerCreate($input: CustomerCreateInput!) {

@@ -24,11 +24,14 @@ const SignUpForm = () => {
     }
     callCreateUserApi(formData).then((res) => {
       if (res?.isSignUp) {
-        console.log(res?.isSignUp);
         navigate("/account/login");
         return
       }
-      setFormErrors({status: "Can't create user at this moment"})
+      if(res.error){
+        setFormErrors(res?.error[0]);
+        return
+      }
+      setFormErrors({message: "can't create customer at the moment"})
     });
   };
   return (
@@ -46,7 +49,7 @@ const SignUpForm = () => {
                 required
                 placeholder="First Name"
                 />
-              <span className="text-red-500">{formErrors.firstName}</span>
+              <span className="text-red-500">{formErrors?.firstName}</span>
             </div>
             <input
               type="text"
@@ -65,7 +68,7 @@ const SignUpForm = () => {
                 required
                 placeholder="Email"
                 />
-              <span className="text-red-500">{formErrors.email}</span>
+              <span className="text-red-500">{formErrors?.email}</span>
             </div>
             <div className="mb-4">
               <input
@@ -76,7 +79,7 @@ const SignUpForm = () => {
                 required
                 placeholder="Phone"
                 />
-              <span className="text-red-500">{formErrors.phone}</span>
+              <span className="text-red-500">{formErrors?.phone}</span>
             </div>
             <div className="mb-4">
               <input
@@ -87,8 +90,9 @@ const SignUpForm = () => {
                 required
                 placeholder="Password"
                 />
-              <span className="text-red-500">{formErrors.password}</span>
-              <span className="text-red-500">{formErrors.status}</span>
+              <span className="text-red-500">{formErrors?.password}</span>
+              <span className="text-red-500">{formErrors?.status}</span>
+              <span className="text-red-500">{formErrors?.message}</span>
             </div>
             <button
               type="submit"
@@ -116,7 +120,6 @@ const SignUpForm = () => {
 export default SignUpForm;
 
 export async function callCreateUserApi(formData) {
-  console.log(formData);
   try {
     const res = await fetch(`/account/signUp`, {
       method: "POST",
@@ -130,7 +133,7 @@ export async function callCreateUserApi(formData) {
     if (res?.status === 200) {
       return { isSignUp: true };
     } else {
-      return {isSignUp: false};
+      return res.json();
     }
   } catch (error) {
     return {

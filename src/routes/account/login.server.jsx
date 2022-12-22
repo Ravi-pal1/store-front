@@ -63,35 +63,3 @@ const LOGIN_MUTATION = gql`
     }
   }
 `;
-// const QUERYTOKEN = gql`
-//   mutation customerAccessTokenCreate {
-//     customerAccessTokenCreate(
-//       input: { email: "ravi@gmail.com", password: "5hopif" }
-//     ) {
-//       customerAccessToken {
-//         accessToken
-//       }
-//       customerUserErrors {
-//         message
-//       }
-//     }
-//   }
-// `;
-// const QUERY = gql`
-//   mutation customerCreate($input: CustomerCreateInput!) {
-//     customerCreate(input: $input) {
-//       customer {
-//         firstName
-//         lastName
-//         email
-//         phone
-//         acceptsMarketing
-//       }
-//       customerUserErrors {
-//         field
-//         message
-//         code
-//       }
-//     }
-//   }
-// `;
